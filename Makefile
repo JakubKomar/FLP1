@@ -6,7 +6,7 @@ build:
 	if [ -d "build" ]; then rm -r build; fi && \
 	cp -r src build && \
 	cd build && \
-	ghc Main.hs -Wall -o flp22-fun && \
+	ghc Main.hs Minimize.hs ParseInput.hs Types.hs -Wall -o flp22-fun && \
 	mv flp22-fun ../
 
 pack: clean
