@@ -7,13 +7,13 @@
 
 module Types where
     
-data KnapSack = Knapsack {
-    maxWeight   :: Integer,
-    minCost     :: Integer,
+data KnapSack = KnapSack {
+    maxWeight   :: Int  ,
+    minCost     :: Int  ,
     items       :: [Item]
-} deriving Show
+} deriving (Eq,Show)
 
 data Item = Item{
-    weight   :: Integer,
-    cost     :: Integer
-} deriving Show
+    weight   :: Int  ,
+    cost     :: Int  
+} deriving (Eq,Show)
