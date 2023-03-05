@@ -6,3 +6,6 @@
 -}
 
 module ParseInput where
+
+parseInput  =putStrLn "Parsing input from cmd"
+parseInputFs fs =putStrLn "Parsing input from file"
