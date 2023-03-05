@@ -6,6 +6,32 @@
 -}
 
 module ParseInput where
+--import Types
 
-parseInput  =putStrLn "Parsing input from cmd"
-parseInputFs fs =putStrLn "Parsing input from file"
+parseInput :: IO ()
+parseInput  = do 
+    contents <- getContents
+    parseText contents
+
+parseInputFs :: FilePath -> IO ()
+parseInputFs fs = do 
+    file_content <- readFile fs
+    parseText file_content
+
+
+parseText :: String -> IO ()
+parseText str = print str
+
+
+
+{-
+Knapsack {
+    maxWeight =35,
+    minCost =65,
+    items =   [ 
+        Item {weight=12 , cost=36} ,
+        Item {weight=1 , cost=3} ,
+        Item {weight=16 , cost=6} 
+    ]
+}
+-}
