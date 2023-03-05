@@ -8,13 +8,13 @@
 module ParseInput where
 --import Types
 
-parseInput :: IO ()
-parseInput  = do 
+parseIputStdIn :: IO ()
+parseIputStdIn  = do 
     contents <- getContents
     parseText contents
 
-parseInputFs :: FilePath -> IO ()
-parseInputFs fs = do 
+parseInputFile :: FilePath -> IO ()
+parseInputFile fs = do 
     file_content <- readFile fs
     parseText file_content
 
