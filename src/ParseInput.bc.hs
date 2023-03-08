@@ -54,10 +54,10 @@ parametrParser _ = parseErr
 subParametrParser :: [String] -> KnapSack -> KnapSack
 subParametrParser [] kp = kp
 subParametrParser (x:xs) kp =  let sl= splitOn ":" x 
-    in traceShow kp$traceShow sl$
-        if (length sl)==1 && sl!!1=="}" then
+    in traceShow sl$
+        if length sl==1 && sl!!1=="}" then
             kp
-        else if (length sl) /= 2 then
+        else if length sl /= 2 then
             parseErr
         else if sl!!0 == "maxweight" then
             subParametrParser xs kp {maxWeight= read  $ sl!!1 :: Int}
@@ -65,29 +65,25 @@ subParametrParser (x:xs) kp =  let sl= splitOn ":" x
             subParametrParser xs kp {minCost= read  $ sl!!1 :: Int}
         else if sl!!0 == "items" && sl!!1=="[" then 
            subParametrParser xs kp {items= itemsParser xs} 
-        else
-            parseErr
 --subParametrParser _ _ = parseErr
 
-itemsParser :: [String] -> [Item]
+itemsParser :: [String]  -> [item]
 itemsParser ("]":xs)= []
-itemsParser ("item{":xs) = let (itm,rest)= itemParser2 xs in
-    [itm] ++ itemsParser(rest)
-itemsParser ("item{":xs)= let (itm,rest)= itemParser2 xs in
-    [itm] ++ itemsParser(rest)
-itemsParser _ = parseErr
+itemsParser ("item{":xs) =  itemParser2 xs
+itemsParser ("item":"{":xs)= itemParser2 xs  
+--itemsParser _ = parseErr
 
-itemParser2 :: [String]  -> (Item,[String] )
+itemParser2 :: [String]  -> Item
 itemParser2 xs = let it=Item {weight= -1 , cost= -1 }in 
-    let (itm, rest)= itemParser3 xs it in
-        (itm, rest)
-itemParser2 _ = parseErr
+    itemParser3 xs it
+--itemParser2 _ = parseErr
 
-itemParser3 :: [String] -> Item  ->  (Item,[String] )
-
+itemParser3 :: [String] -> Item  -> Item 
+itemParser3 [] it = it
 itemParser3 (x:xs) it =  let sl= splitOn ":" x  in
+        traceShow sl$
         if length sl==1 && sl!!0=="}" then
-            (it,xs) 
+            it
         else if length sl/=2 then
             parseErr
         else if sl!!0 == "weight" then
@@ -99,4 +95,18 @@ itemParser3 (x:xs) it =  let sl= splitOn ":" x  in
 itemParser3 _ _ =parseErr
 
 
+
 parseErr = error "Chyba ve vstupu"
+parseErr2 = error "wadaw"
+{-
+
+Knapsack {
+    maxWeight =35,
+    minCost =65,
+    items =   [ 
+        Item {weight=12 , cost=36} ,
+        Item {weight=1 , cost=3} ,
+        Item {weight=16 , cost=6} 
+    ]
+}
+-}
