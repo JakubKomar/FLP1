@@ -2,29 +2,21 @@
 * file: ParseInput.hs
 * project: FLP 2022/2023 – funkcionální projekt: Haskell [Knapsack problem]
 * autor: Jakub Komárek (xkomar33)
-* description: Parse args and files
+* description: parsing vstupního řetězce a převod na knapsack konstrukt
 -}
 
 module ParseInput where
 import Data.List.Split
 import Data.Char
 import Types
-import Debug.Trace
 
-parseIputStdIn :: IO ()
-parseIputStdIn  = do 
-    contents <- getContents
-    parseText contents
+-- hlavní funkce na získání instance knapsak z textu
+parseText :: String -> KnapSack 
+parseText str = startParsing $ arasteEmpy$ splitByEOL $ dropWiteSpace $ map toLower str -- text se nejdříve převede na malá písmena, 
+                                                                                        -- poté se zahodí všechny bílé znaky a text se rozdělí podle znaků konce řádků
+                                                                                        -- prázdné prvky jsou zahozeny a následně je nad tímto polem proveden další parsing
 
-parseInputFile :: FilePath -> IO ()
-parseInputFile fs = do 
-    file_content <- readFile fs
-    parseText file_content
-
-
-parseText :: String -> IO ()
-parseText str = print $ startParsing $ arasteEmpy$ splitByEOL $ dropWiteSpace $ map toLower str
-
+-- zahazuje bílé znaky
 dropWiteSpace :: String -> String
 dropWiteSpace []=[]
 dropWiteSpace (x:xs)= if  x /= '\r'  && x /= '\t' && x /= ' ' then
@@ -32,25 +24,28 @@ dropWiteSpace (x:xs)= if  x /= '\r'  && x /= '\t' && x /= ' ' then
     else
         dropWiteSpace xs
 
-
+-- maže prázdné prvky pole
 arasteEmpy ::[String] -> [String]
 arasteEmpy [] = []
 arasteEmpy (x:xs) = if x== "" then arasteEmpy xs else x: arasteEmpy xs
 
-
+-- rozdělí text podle znaku konce řádku
 splitByEOL :: String -> [String]
 splitByEOL str = splitOn "\n" str
 
+
+-- začátek parsování, kontrola root elementu
 startParsing ::[String] -> KnapSack
 startParsing ("knapsack{":xs) = parametrParser xs 
 startParsing ("knapsack":"{":xs) = parametrParser xs 
 startParsing _ = parseErr
 
+-- vytvoření prázdné instance knapsacku
 parametrParser :: [String] -> KnapSack
 parametrParser x = let kp=KnapSack {maxWeight= -1 , minCost= -1 , items= []}in 
     subParametrParser  x kp
-parametrParser _ = parseErr
 
+-- parsing obsahu rootovského elementu
 subParametrParser :: [String] -> KnapSack -> KnapSack
 subParametrParser [] kp = kp
 subParametrParser (x:xs) kp =  let sl= splitOn ":" x  in 
@@ -67,26 +62,26 @@ subParametrParser (x:xs) kp =  let sl= splitOn ":" x  in
             subParametrParser rest kp {items= itmS} 
         else
             parseErr
---subParametrParser _ _ = parseErr
 
+-- parser položek knapsaku
 itemsParser :: [String] -> ([Item],[String])
 itemsParser ("]":xs)= ([],xs)
 itemsParser ("item{":xs) = let (itm,rest)= itemParser2 xs in
     let (recItems,recRest) = itemsParser(rest) in
     ([itm] ++ recItems,recRest)
-itemsParser ("item{":xs)=  let (itm,rest)= itemParser2 xs in
+itemsParser ("item":"{":xs)=  let (itm,rest)= itemParser2 xs in
     let (recItems,recRest) = itemsParser(rest) in
     ([itm] ++ recItems,recRest)
 itemsParser _ = parseErr
 
+-- tvorba prázdné instance itemu
 itemParser2 :: [String]  -> (Item,[String] )
 itemParser2 xs = let it=Item {weight= -1 , cost= -1 }in 
     let (itm, rest)= itemParser3 xs it in
         (itm, rest)
-itemParser2 _ = parseErr
 
+-- parsing jednotlivých elementů každého itemu
 itemParser3 :: [String] -> Item  ->  (Item,[String] )
-
 itemParser3 (x:xs) it =  let sl= splitOn ":" x  in
         if length sl==1 && sl!!0=="}" then
             (it,xs) 
@@ -100,5 +95,6 @@ itemParser3 (x:xs) it =  let sl= splitOn ":" x  in
             parseErr
 itemParser3 _ _ =parseErr
 
-
+-- chybová hláška při prasingu
+parseErr ::  a 
 parseErr = error "Chyba ve vstupu"
