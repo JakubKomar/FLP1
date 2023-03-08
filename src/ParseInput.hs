@@ -53,9 +53,8 @@ parametrParser _ = parseErr
 
 subParametrParser :: [String] -> KnapSack -> KnapSack
 subParametrParser [] kp = kp
-subParametrParser (x:xs) kp =  let sl= splitOn ":" x 
-    in traceShow kp$traceShow sl$
-        if (length sl)==1 && sl!!1=="}" then
+subParametrParser (x:xs) kp =  let sl= splitOn ":" x  in 
+        if (length sl)==1 && sl!!0=="}" then
             kp
         else if (length sl) /= 2 then
             parseErr
@@ -64,17 +63,20 @@ subParametrParser (x:xs) kp =  let sl= splitOn ":" x
         else if sl!!0 == "mincost" then 
             subParametrParser xs kp {minCost= read  $ sl!!1 :: Int}
         else if sl!!0 == "items" && sl!!1=="[" then 
-           subParametrParser xs kp {items= itemsParser xs} 
+            let (itmS,rest)=itemsParser xs in   
+            subParametrParser rest kp {items= itmS} 
         else
             parseErr
 --subParametrParser _ _ = parseErr
 
-itemsParser :: [String] -> [Item]
-itemsParser ("]":xs)= []
+itemsParser :: [String] -> ([Item],[String])
+itemsParser ("]":xs)= ([],xs)
 itemsParser ("item{":xs) = let (itm,rest)= itemParser2 xs in
-    [itm] ++ itemsParser(rest)
-itemsParser ("item{":xs)= let (itm,rest)= itemParser2 xs in
-    [itm] ++ itemsParser(rest)
+    let (recItems,recRest) = itemsParser(rest) in
+    ([itm] ++ recItems,recRest)
+itemsParser ("item{":xs)=  let (itm,rest)= itemParser2 xs in
+    let (recItems,recRest) = itemsParser(rest) in
+    ([itm] ++ recItems,recRest)
 itemsParser _ = parseErr
 
 itemParser2 :: [String]  -> (Item,[String] )
