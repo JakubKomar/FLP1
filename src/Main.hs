@@ -5,16 +5,15 @@
 * description: parsuje argumenty a zpouští hlavní moduly
 -}
 
+{-
+import BrutForce
+import Minimize
+import Types -}
+
 import System.Environment
 import System.Exit
 
 import ParseInput 
---import Types
-{-
-import BrutForce
-import Minimize
-import Types
--}
 
 main :: IO ()
 main = getArgs >>= parse

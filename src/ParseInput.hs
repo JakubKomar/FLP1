@@ -40,10 +40,18 @@ startParsing ("knapsack{":xs) = parametrParser xs
 startParsing ("knapsack":"{":xs) = parametrParser xs 
 startParsing _ = parseErr
 
--- vytvoření prázdné instance knapsacku
+-- vytvoření prázdné instance knapsacku a kontrola řádného naplnění
 parametrParser :: [String] -> KnapSack
 parametrParser x = let kp=KnapSack {maxWeight= -1 , minCost= -1 , items= []}in 
-    subParametrParser  x kp
+    let parsedKp=subParametrParser  x kp in
+        if knapsackCheckCorrectnes parsedKp then
+            parsedKp
+        else 
+            parseErr
+
+-- kontroluje korektnost instance KnapSack
+knapsackCheckCorrectnes :: KnapSack ->Bool
+knapsackCheckCorrectnes kp = maxWeight kp >0 && minCost kp >0 && items kp /=[]
 
 -- parsing obsahu rootovského elementu
 subParametrParser :: [String] -> KnapSack -> KnapSack
@@ -74,11 +82,19 @@ itemsParser ("item":"{":xs)=  let (itm,rest)= itemParser2 xs in
     ([itm] ++ recItems,recRest)
 itemsParser _ = parseErr
 
--- tvorba prázdné instance itemu
+-- tvorba prázdné instance itemu a kontrola zprávného napnění
 itemParser2 :: [String]  -> (Item,[String] )
 itemParser2 xs = let it=Item {weight= -1 , cost= -1 }in 
     let (itm, rest)= itemParser3 xs it in
-        (itm, rest)
+        if itemCheckCorrectnes itm then
+            (itm, rest)
+        else
+            parseErr
+
+-- kontroluje korektnost instance item
+itemCheckCorrectnes :: Item ->Bool
+itemCheckCorrectnes it = weight it >0 && cost it >0 
+
 
 -- parsing jednotlivých elementů každého itemu
 itemParser3 :: [String] -> Item  ->  (Item,[String] )
