@@ -6,7 +6,7 @@
 -}
 
 {-
-import BrutForce
+
 import Minimize
 import Types -}
 
@@ -14,6 +14,7 @@ import System.Environment
 import System.Exit
 
 import ParseInput 
+import BrutForce
 
 main :: IO ()
 main = getArgs >>= parse
@@ -44,7 +45,7 @@ checkOption arg = arg=="-i"||arg=="-b"||arg=="-o"
 -- hlavní větvení podle zpuštěného módu
 parse2 :: [Char] -> String -> IO ()
 parse2 "-i" context = print$ parseText context
-parse2 "-b" context= putStrLn "Prohledávání stavového prostoru hrubou silou:">> parse2 "-i" context 
+parse2 "-b" context= print$ brutforce $parseText  context 
 parse2 "-o" context =putStrLn "Genetic algorithm or other shit:" >>parse2 "-i" context 
 parse2 _  _=argsErr
 

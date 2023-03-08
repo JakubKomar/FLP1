@@ -6,3 +6,7 @@
 -}
 
 module BrutForce where
+import Types
+
+brutforce :: KnapSack -> [Int]
+brutforce ks = [0]
