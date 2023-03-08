@@ -1,0 +1,28 @@
+Knapsack {
+
+
+    minCost: 324
+
+    items: [
+        Item {
+           
+            cost: 3
+            weight: 36
+        }
+        Item {
+            weight: 43
+            cost: 1129
+        }
+        Item {
+            weight: 202
+            cost: 94
+        }
+        Item {
+            weight: 149
+            cost: 2084
+        }
+    ]
+    maxWeight: 46
+
+
+}
