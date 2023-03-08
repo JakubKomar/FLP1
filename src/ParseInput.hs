@@ -9,7 +9,7 @@ module ParseInput where
 import Data.List.Split
 import Data.Char
 import Types
-import Debug.Trace
+
 parseIputStdIn :: IO ()
 parseIputStdIn  = do 
     contents <- getContents
@@ -53,51 +53,31 @@ parametrParser _ = parseErr
 subParametrParser :: [String] -> KnapSack -> KnapSack
 subParametrParser [] kp = kp
 subParametrParser (x:xs) kp =  let sl= splitOn ":" x 
-    in traceShow sl$
-        if length sl==1 && sl!!1=="}" then
-            kp
-        else if length sl /= 2 then
+    in
+        if length sl<2 then
             parseErr
         else if sl!!0 == "maxweight" then
             subParametrParser xs kp {maxWeight= read  $ sl!!1 :: Int}
         else if sl!!0 == "mincost" then 
             subParametrParser xs kp {minCost= read  $ sl!!1 :: Int}
-        else if sl!!0 == "items" && sl!!1=="[" then 
-           subParametrParser xs kp {items= itemsParser xs} 
-
-subParametrParser _ _ =parseErr
-
-itemsParser :: [String]  -> [item]
-itemsParser ("]":xs)= []
-itemsParser ("item{":xs) =  itemParser2 xs
-itemsParser ("item":"{":xs)= itemParser2 xs  
-itemsParser _ = parseErr
-
-itemParser2 :: [String]  -> Item
-itemParser2 xs = let it=Item {weight= -1 , cost= -1 }in 
-    itemParser3 xs it
-itemParser2 _ = parseErr
-
-itemParser3 :: [String] -> Item  -> Item 
-itemParser3 [] it = it
-itemParser3 (x:xs) it =  let sl= splitOn ":" x  in
-        traceShow sl$
-        if length sl==1 && sl!!0=="}" then
-            it
-        else if length sl/=2 then
-            parseErr
-        else if sl!!0 == "weight" then
-            itemParser3 xs it {weight= read  $ sl!!1 :: Int}
-        else if sl!!0 == "cost" then 
-            itemParser3 xs it {cost= read  $ sl!!1 :: Int}
+        else if sl!!0 == "items" then
+            itemsParser xs kp
         else 
             parseErr
-itemParser3 _ _ =parseErr
+subParametrParser _ _ =parseErr
+
+itemsParser :: [String] -> KnapSack -> KnapSack
+
+
+
+paramSeter :: [String] -> KnapSack-> KnapSack
+--paramSeter 
+paramSeter _ _= parseErr
+
 
 
 
 parseErr = error "Chyba ve vstupu"
-parseErr2 = error "wadaw"
 {-
 
 Knapsack {
