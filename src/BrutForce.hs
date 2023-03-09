@@ -8,11 +8,12 @@
 module BrutForce where
 import Types
 
-
+-- hlavní funkce, vygreneruje všechny možné kombinace řešení, které následně vyhodnotí a pokud jsou nalezena řešení,
+-- vrací nejlepší znich 
 brutforce :: KnapSack -> Maybe SolutionVariation
 brutforce ks =  findBestSolution (solutionsEvaluation (solutionTransformation(comb (length  (items ks)) [0,1])) ks) 0  
 
-
+-- provede vyhledání nejlepšího řešení, vrací Nothing poku žádné řešení neexistuje
 findBestSolution :: [SolutionVariation]-> Int -> Maybe SolutionVariation
 findBestSolution [] _ = Nothing
 findBestSolution (x:xs) max'= 
@@ -25,12 +26,12 @@ findBestSolution (x:xs) max'=
     else 
         findBestSolution xs  max'
 
-    
-
+-- hlavní funkce na vyhodnocení všech řešení
 solutionsEvaluation :: [SolutionVariation] -> KnapSack ->  [SolutionVariation]
 solutionsEvaluation [] _ =[]
 solutionsEvaluation (sol:xs) ks= [solutionEval sol ks] ++ (solutionsEvaluation xs ks)
 
+-- provádí vyhodnocení jednoho konkrétního řešení
 solutionEval :: SolutionVariation -> KnapSack -> SolutionVariation
 solutionEval sol ks= let (totalWeight,totalCost ) =itemsEval (items ks) (itemVector sol) in 
     if totalCost >= (minCost ks) &&  totalWeight <=  (maxWeight ks) then
@@ -38,6 +39,7 @@ solutionEval sol ks= let (totalWeight,totalCost ) =itemsEval (items ks) (itemVec
     else
         sol {  weightSum =totalWeight, costSum=totalCost, valid=False }
 
+-- vrací součty všech váh a cen všech itemů v knapsaku. Itemy které patři do řešení rozhoduje  vektor
 itemsEval :: [Item] -> [Int] -> (Int,Int)
 itemsEval [] []= (0,0)
 itemsEval (x:xs) (inKnapSac:ys) = let (weightRec, costRec) = (itemsEval xs ys) in
@@ -47,19 +49,14 @@ itemsEval (x:xs) (inKnapSac:ys) = let (weightRec, costRec) = (itemsEval xs ys) i
         (weightRec, costRec)
 itemsEval _ _ = brurErr
 
-
+-- vytvoří všechna řešení z vektorů - tvorba struktury SolutionVariation
 solutionTransformation :: [[Int]] -> [SolutionVariation]
 solutionTransformation []=[]
 solutionTransformation (x:xs)= 
     let solution=SolutionVariation {itemVector= x,weightSum= -1, costSum= -1 , valid=False}in 
     [solution] ++ solutionTransformation xs
 
-
-
-dropFirst:: [a] ->[a]
-dropFirst []=[]
-dropFirst (_:xs)=xs
-
+-- vytvoří všechny kombinace vektorů o délce n
 comb :: Int -> [a] -> [[a]]
 comb 0 _ = [[]]
 comb n r = [i:s | i <- r, s <- comb (n-1) r]
