@@ -17,3 +17,10 @@ data Item = Item{
     weight   :: Int  ,
     cost     :: Int  
 } deriving (Eq,Show)
+
+data SolutionVariation = SolutionVariation{
+    itemVector :: [Int],
+    weightSum :: Int,
+    costSum :: Int,
+    valid :: Bool
+} deriving (Eq,Show)
