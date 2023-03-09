@@ -15,6 +15,9 @@ import System.Exit
 
 import ParseInput 
 import BrutForce
+import Data.Maybe
+import Types
+
 
 main :: IO ()
 main = getArgs >>= parse
@@ -45,9 +48,15 @@ checkOption arg = arg=="-i"||arg=="-b"||arg=="-o"
 -- hlavní větvení podle zpuštěného módu
 parse2 :: [Char] -> String -> IO ()
 parse2 "-i" context = print$ parseText context
-parse2 "-b" context= print$ brutforce $parseText  context 
+parse2 "-b" context= 
+    let sol =   brutforce $parseText  context in
+    if sol==Nothing then
+        putStrLn "False"
+    else
+        print ( itemVector $ fromJust sol)
 parse2 "-o" context =putStrLn "Genetic algorithm or other shit:" >>parse2 "-i" context 
 parse2 _  _=argsErr
+
 
 -- chyba při kontrole argumentů
 argsErr :: IO ()
