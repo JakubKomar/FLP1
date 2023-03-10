@@ -5,11 +5,6 @@
 * description: parsuje argumenty a zpouští hlavní moduly
 -}
 
-{-
-
-import Minimize
-import Types -}
-
 import System.Environment
 import System.Exit
 
@@ -49,14 +44,20 @@ checkOption arg = arg=="-i"||arg=="-b"||arg=="-o"
 parse2 :: [Char] -> String -> IO ()
 parse2 "-i" context = print$ parseText context
 parse2 "-b" context= 
-    let sol =   brutforce $parseText  context in
+    let sol =  brutforce $parseText  context in
     if sol==Nothing then
-        putStrLn "False"
+        print False
     else
-        print ( itemVector $ fromJust sol)
+        putStrLn ( vectorToShitFormat(itemVector $ fromJust sol))
 parse2 "-o" context =putStrLn "Genetic algorithm or other shit:" >>parse2 "-i" context 
 parse2 _  _=argsErr
 
+vectorToShitFormat :: [Int] -> String
+vectorToShitFormat x = "[ " ++ vectorToShitFormat2 x ++ "]"
+
+vectorToShitFormat2 :: [Int] -> String
+vectorToShitFormat2 []= ""
+vectorToShitFormat2 (x:xs) = (show x) ++ " " ++ (vectorToShitFormat2 xs)
 
 -- chyba při kontrole argumentů
 argsErr :: IO ()
