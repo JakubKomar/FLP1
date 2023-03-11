@@ -49,8 +49,10 @@ parse2 "-b" context=
         print False
     else
         putStrLn ( vectorToShitFormat(itemVector $ fromJust sol))
-parse2 "-o" context =putStrLn "Genetic algorithm or other shit:" >>parse2 "-i" context 
+parse2 "-o" context =
+    putStrLn "Genetic algorithm or other shit:" >> minimaze -- $parseText  context 
 parse2 _  _=argsErr
+
 
 vectorToShitFormat :: [Int] -> String
 vectorToShitFormat x = "[ " ++ vectorToShitFormat2 x ++ "]"
