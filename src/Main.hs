@@ -13,7 +13,7 @@ import BrutForce
 import Data.Maybe
 import Types
 import Minimize
-
+import System.Random
 main :: IO ()
 main = getArgs >>= parse
 
@@ -45,15 +45,20 @@ parse2 :: [Char] -> String -> IO ()
 parse2 "-i" context = print$ parseText context
 parse2 "-b" context= 
     let sol =  brutforce $parseText  context in
+    printResult sol
+parse2 "-o" context = do
+    gen <- getStdGen -- vytvoření nového seedu pro generování náhodných čísel
+    let sol = minimaze (parseText  context)  gen
+    printResult sol
+parse2 _ _ = argsErr
+
+
+printResult :: Maybe SolutionVariation -> IO()
+printResult sol =  
     if sol==Nothing then
         print False
     else
         putStrLn ( vectorToShitFormat(itemVector $ fromJust sol))
-parse2 "-o" context =do  
-    res<-minimaze $ parseText  context 
-    print res
-parse2 _ _ = argsErr
-
 
 vectorToShitFormat :: [Int] -> String
 vectorToShitFormat x = "[ " ++ vectorToShitFormat2 x ++ "]"

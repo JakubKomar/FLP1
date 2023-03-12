@@ -10,11 +10,10 @@ import System.Random
 import Types
 import BrutForce
 
-minimaze :: KnapSack -> IO (Maybe SolutionVariation)
-minimaze ks = do
-    gen <- getStdGen 
-    let rs = MiniStr {boolRands= (randomRs (0, 1 :: Int) gen ), intRands=randoms  gen,doubleRands= (randomRs(0, 1 :: Double) gen ), intCnt=  0} 
-    return $ startMinimaze ks rs 
+minimaze :: KnapSack -> StdGen -> Maybe SolutionVariation
+minimaze ks gen = 
+    let rs = MiniStr {boolRands= (randomRs (0, 1 :: Int) gen ), intRands=randoms  gen,doubleRands= (randomRs(0, 1 :: Double) gen ), intCnt=  0} in
+    startMinimaze ks rs 
 
 startMinimaze :: KnapSack -> MiniStr -> Maybe SolutionVariation
 startMinimaze ks rs= 
