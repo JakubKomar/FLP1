@@ -9,13 +9,13 @@ module Minimize where
 import System.Random
 import Types
 import BrutForce
-
+import Debug.Trace
 -- minimaze :: KnapSack -> IO ()
 minimaze ks = do
     gen <- getStdGen 
     let rs = MiniStr {boolRands= (randomRs (0, 1 :: Int) gen ), intRands=randoms  gen,doubleRands= (randomRs(0, 1 :: Double) gen ), intCnt=  0} 
-    let (x)= startMinimaze ks rs
-    return $ x
+    let x= startMinimaze ks rs 
+    return $ (z,j)
 
 
 -- startMinimaze :: KnapSack -> MiniStr -> Int
@@ -26,22 +26,34 @@ startMinimaze ks rs=
 -- begginGenAlg :: MiniStr -> KnapSack ->[SolutionVariation] -> 
 begginGenAlg rs ks sols= sols
 
-{-}
-shuffle  :: MiniStr ->[a] -> (MiniStr,[a] )
+
+shuffle  :: MiniStr ->[Int] -> (MiniStr,[Int] )
 shuffle rs []= (rs,[])
-shuffle rs (x:xy)=
-    let (newRs,int)=abs(tosInt (rs))in
-    let pos =  int `mod` ((length xy )+1 ) in
+shuffle rs (x:xs)=
+    let (newRs,int)=tosInt (rs) in
+    let absInt =  absVal int in
+    let pos =  absInt `mod` ((length xs )+1 ) in
     if pos == 0 then
-        let (newRs2,rest)=shuffle newRs xy
+        let (newRs2,rest)=shuffle newRs xs in
+        (trace (show xs) )
         (newRs2,[x] ++ rest)
     else 
-        letr
-        (newRs2,[ xy !! (pos-1) ] ++ rest)
+        let a = xs !! (pos-1) in      
+        let (newRs2,rest)=shuffle newRs ((removeN (pos-1) xs )++[x]) in
+              (trace (show xs) )
+        (newRs2,[a] ++ rest)
        
--}
-abs :: Int ->Int
-abs x = if x>=0 then
+removeN :: Int -> [a] ->[a]
+removeN _ []=[]
+removeN i (x:xs)=
+    if i ==0 then
+        removeN (i-1) xs 
+    else
+        [x]++ (removeN (i-1) xs )
+
+
+absVal :: Int ->Int
+absVal x = if x>=0 then
             x
         else
             (-x) 
