@@ -13,7 +13,6 @@ import BrutForce
 import Data.Maybe
 import Types
 import Minimize
-import System.Random
 
 main :: IO ()
 main = getArgs >>= parse

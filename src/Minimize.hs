@@ -9,18 +9,16 @@ module Minimize where
 import System.Random
 import Types
 import BrutForce
-import Debug.Trace
--- minimaze :: KnapSack -> IO ()
+
+minimaze :: KnapSack -> IO (Maybe SolutionVariation)
 minimaze ks = do
     gen <- getStdGen 
     let rs = MiniStr {boolRands= (randomRs (0, 1 :: Int) gen ), intRands=randoms  gen,doubleRands= (randomRs(0, 1 :: Double) gen ), intCnt=  0} 
-
     return $ startMinimaze ks rs 
 
-
--- startMinimaze :: KnapSack -> MiniStr -> Int
+startMinimaze :: KnapSack -> MiniStr -> Maybe SolutionVariation
 startMinimaze ks rs= 
-    let (sols, newRs)= genereteSolutions 8 ks rs in
+    let (sols, newRs)= genereteSolutions 32 ks rs in
     begginGenAlg  newRs  ks sols
 
 begginGenAlg :: MiniStr -> KnapSack ->[SolutionVariation] -> Maybe SolutionVariation
@@ -35,14 +33,18 @@ begginGenAlg rs ks sols=
         let (newRs2, fightedSufleSol) = shuffle newRs1 fightedSol  in
         let (newRs3, randInt) = tosInt newRs2 in
         let (newRs4, newGeneration) = createChilds newRs3 randInt fightedSufleSol in
-        (trace $ show x)
-        begginGenAlg newRs4 ks newGeneration
+        let modNewRs=newRs4{intCnt=(intCnt newRs4)+1}in 
+        -- (trace $ show x)
+        if (intCnt newRs4)<= 20000 then
+            begginGenAlg modNewRs ks newGeneration
+        else
+            Nothing
 
 
 mutateVector :: MiniStr -> [Int] -> (MiniStr, [Int])
 mutateVector rs []= (rs,[])
 mutateVector rs (x:xs) =
-    let (newGen,randFactor) = tosChance rs 0.2 in
+    let (newGen,randFactor) = tosChance rs 0.05 in
     let (newGen2,vectRest)= mutateVector newGen xs in
     if randFactor then
         if x==0 then
@@ -55,6 +57,7 @@ mutateVector rs (x:xs) =
 
 createChilds :: MiniStr -> Int -> [SolutionVariation] -> (MiniStr,[SolutionVariation]) 
 createChilds rs _ []=(rs,[])
+createChilds rs _ [_]=(rs,[])
 createChilds rs rand (x:y:xs) =
     let splitPos = normalizeRndInt rand  (length (itemVector x)) in 
     let (ax,ay)=splAt splitPos (itemVector x) in
@@ -62,7 +65,7 @@ createChilds rs rand (x:y:xs) =
     let (newGen,mutatedA) = mutateVector rs (ax++by) in
     let (newGen2,mutatedB) = mutateVector newGen (bx++ay) in
     let (newGen3,rest) = createChilds newGen2 rand xs in
-    (newGen3,[x,y,SolutionVariation {itemVector= mutatedA,valid=False},SolutionVariation {itemVector= mutatedB,valid=False}] ++ rest)
+    (newGen3,[x,y,SolutionVariation {itemVector= mutatedA,valid=False,weightSum=(-1),costSum=(-1)},SolutionVariation {itemVector= mutatedB,valid=False,weightSum=(-1),costSum=(-1)}] ++ rest)
 
 splAt :: Int -> [a]->([a],[a])
 splAt _ []=([],[])
@@ -76,6 +79,7 @@ normalizeRndInt x upperBount= (absVal x) `mod` upperBount
 
 fightSolutions ::  MiniStr ->KnapSack-> [SolutionVariation] -> ( MiniStr ,[SolutionVariation] )
 fightSolutions rs _ []= (rs,[])
+fightSolutions rs _ [_]= (rs,[])
 fightSolutions rs ks (x:y:xs) = 
     let (newGen,rest)=fightSolutions rs ks xs in
     if  costSum x < costSum y then
@@ -87,14 +91,6 @@ fightSolutions rs ks (x:y:xs) =
     else
         (newGen,[x]++ rest)
 -- fightSolutions rs _ x  = (rs,[])
-
-findSolution :: [SolutionVariation] -> Maybe SolutionVariation
-findSolution [] = Nothing
-findSolution (x:xs) = 
-    if (valid x)then     
-        Just x
-    else 
-        findSolution xs
 
 shuffle  :: MiniStr ->[a] -> (MiniStr,[a] )
 shuffle rs []= (rs,[])

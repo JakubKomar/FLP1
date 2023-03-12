@@ -11,9 +11,9 @@ import Types
 -- hlavní funkce, vygreneruje všechny možné kombinace řešení, které následně vyhodnotí a pokud jsou nalezena řešení,
 -- vrací nejlepší znich 
 brutforce :: KnapSack -> Maybe SolutionVariation
-brutforce ks =  findBestSolution (solutionsEvaluation (solutionTransformation(comb (length  (items ks)) [0,1])) ks) 0  
+brutforce ks =  findSolution (solutionsEvaluation (solutionTransformation(comb (length  (items ks)) [0,1])) ks) 
 
--- provede vyhledání nejlepšího řešení, vrací Nothing poku žádné řešení neexistuje
+-- provede vyhledání nejlepšího řešení, vrací Nothing pokud žádné řešení neexistuje
 findBestSolution :: [SolutionVariation]-> Int -> Maybe SolutionVariation
 findBestSolution [] _ = Nothing
 findBestSolution (x:xs) max'= 
@@ -25,6 +25,14 @@ findBestSolution (x:xs) max'=
             sol
     else 
         findBestSolution xs  max'
+
+findSolution :: [SolutionVariation] -> Maybe SolutionVariation
+findSolution [] = Nothing
+findSolution (x:xs) = 
+    if (valid x)then     
+        Just x
+    else 
+        findSolution xs
 
 -- hlavní funkce na vyhodnocení všech řešení
 solutionsEvaluation :: [SolutionVariation] -> KnapSack ->  [SolutionVariation]
