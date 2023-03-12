@@ -24,3 +24,10 @@ data SolutionVariation = SolutionVariation{
     costSum :: Int,
     valid :: Bool
 } deriving (Eq,Show)
+
+data MiniStr=MiniStr {
+    intRands :: [Int],
+    boolRands :: [Int],
+    doubleRands :: [Double],
+    intCnt :: Int
+}  deriving (Eq,Show)
