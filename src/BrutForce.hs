@@ -37,7 +37,10 @@ solutionEval sol ks= let (totalWeight,totalCost ) =itemsEval (items ks) (itemVec
     if totalCost >= (minCost ks) &&  totalWeight <=  (maxWeight ks) then
         sol {  weightSum =totalWeight, costSum=totalCost, valid=True }
     else
-        sol {  weightSum =totalWeight, costSum=totalCost, valid=False }
+        if totalWeight <=  (maxWeight ks) then
+            sol {  weightSum =totalWeight, costSum=totalCost, valid=False }
+        else 
+            sol {  weightSum =totalWeight, costSum=0, valid=False }
 
 -- vrací součty všech váh a cen všech itemů v knapsaku. Itemy které patři do řešení rozhoduje  vektor
 itemsEval :: [Item] -> [Int] -> (Int,Int)
