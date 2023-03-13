@@ -20,15 +20,13 @@ main = getArgs >>= parse
 -- tato funkce zkontroluje argumenty a získá data ze souboru/stdin. Pokračuje ve funkci parse2
 parse :: [[Char]] -> IO ()
 parse ["-h"] =putStrLn "Použití: flp22-fun [-i -b -o] \"soubor\""  >> exitWith ExitSuccess
--- vstup ze souboru
-parse [x,fp ]=
-    if checkOption(x) then do
+parse [x,fp ]= -- vstup ze souboru
+     if checkOption(x) then do
         file_content <- readFile fp
         parse2 x file_content
     else
         argsErr
--- vstup ze stdin
-parse [x]= 
+parse [x]= -- vstup ze stdin
     if checkOption(x) then do
         contents <- getContents
         parse2 x contents
@@ -52,20 +50,22 @@ parse2 "-o" context = do
     printResult sol
 parse2 _ _ = argsErr
 
-
+-- formátovací funkce pro výpis výsledku
 printResult :: Maybe SolutionVariation -> IO()
 printResult sol =  
     if sol==Nothing then
         print False
     else
-        putStrLn ( vectorToShitFormat(itemVector $ fromJust sol))
+        putStrLn ( "Solution " ++ formatVector(itemVector $ fromJust sol))
 
-vectorToShitFormat :: [Int] -> String
-vectorToShitFormat x = "[ " ++ vectorToShitFormat2 x ++ "]"
+-- převede vektor na string
+formatVector :: [Int] -> String
+formatVector x = "[ " ++ formatVector2 x ++ "]"
 
-vectorToShitFormat2 :: [Int] -> String
-vectorToShitFormat2 []= ""
-vectorToShitFormat2 (x:xs) = (show x) ++ " " ++ (vectorToShitFormat2 xs)
+-- převede vektor na string
+formatVector2 :: [Int] -> String
+formatVector2 []= ""
+formatVector2 (x:xs) = (show x) ++ " " ++ (formatVector2 xs)
 
 -- chyba při kontrole argumentů
 argsErr :: IO ()
