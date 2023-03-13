@@ -20,4 +20,4 @@ run:
 	test -f flp22-fun && ./flp22-fun
 
 clean:
-	rm -rf flp22-fun build/ 
+	rm -rf flp22-fun build/ flp-fun-xkomar33.zip
