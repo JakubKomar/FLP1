@@ -1,8 +1,8 @@
 {-
 * file: Minimize.hs
 * project: FLP 2022/2023 – funkcionální projekt: Haskell [Knapsack problem]
-* autor: Jakub Komárek (xkomar33)
-* description: minimaze method
+* autor: Bc. Jakub Komárek (xkomar33)
+* description: optimalizační metoda implementovaná pomocí generického algoritmu
 -}
 module Minimize where
 

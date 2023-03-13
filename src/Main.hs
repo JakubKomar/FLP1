@@ -1,7 +1,7 @@
 {-
 * file: Main.hs
 * project: FLP 2022/2023 – funkcionální projekt: Haskell [Knapsack problem]
-* autor: Jakub Komárek (xkomar33)
+* autor: Bc. Jakub Komárek (xkomar33)
 * description: parsuje argumenty a zpouští hlavní moduly
 -}
 import System.Environment(getArgs)
@@ -61,11 +61,12 @@ printResult sol =
 
 -- převede vektor na string
 formatVector :: [Int] -> String
-formatVector x = "[ " ++ formatVector2 x ++ "]"
+formatVector x = "[" ++ formatVector2 x ++ "]"
 
 -- převede vektor na string
 formatVector2 :: [Int] -> String
 formatVector2 []= ""
+formatVector2 (x:[]) = (show x) 
 formatVector2 (x:xs) = (show x) ++ " " ++ (formatVector2 xs)
 
 -- chyba při kontrole argumentů

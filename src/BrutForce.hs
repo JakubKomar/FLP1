@@ -1,11 +1,11 @@
 {-
 * file: BrutForce.hs
 * project: FLP 2022/2023 – funkcionální projekt: Haskell [Knapsack problem]
-* autor: Jakub Komárek (xkomar33)
+* autor: Bc. Jakub Komárek (xkomar33)
 * description: brut force solving method
 -}
 module BrutForce where
-    
+
 import Types
 
 -- hlavní funkce, vygreneruje všechny možné kombinace řešení, které následně vyhodnotí a pokud jsou nalezena řešení,
