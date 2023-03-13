@@ -4,8 +4,8 @@
 * autor: Jakub Komárek (xkomar33)
 * description: brut force solving method
 -}
-
 module BrutForce where
+    
 import Types
 
 -- hlavní funkce, vygreneruje všechny možné kombinace řešení, které následně vyhodnotí a pokud jsou nalezena řešení,
@@ -14,6 +14,7 @@ brutforce :: KnapSack -> Maybe SolutionVariation
 brutforce ks =  findSolution (solutionsEvaluation (solutionTransformation(comb (length  (items ks)) [0,1])) ks) 
 
 -- provede vyhledání nejlepšího řešení, vrací Nothing pokud žádné řešení neexistuje
+-- tato funkce není užita - lze použít nahrazením findSolution v brutforce módě
 findBestSolution :: [SolutionVariation]-> Int -> Maybe SolutionVariation
 findBestSolution [] _ = Nothing
 findBestSolution (x:xs) max'= 
@@ -26,6 +27,7 @@ findBestSolution (x:xs) max'=
     else 
         findBestSolution xs  max'
 
+-- nalezne první nalezené řešení, pokud neexistuje vrací nothing
 findSolution :: [SolutionVariation] -> Maybe SolutionVariation
 findSolution [] = Nothing
 findSolution (x:xs) = 

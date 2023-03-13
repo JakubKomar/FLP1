@@ -4,11 +4,12 @@
 * autor: Jakub Komárek (xkomar33)
 * description: parsing vstupního řetězce a převod na knapsack konstrukt
 -}
-
 module ParseInput where
-import Data.List.Split
-import Data.Char
-import Types
+
+import Data.List.Split(splitOn)
+import Data.Char(toLower)
+
+import Types  -- uživatelsky definované typy
 
 -- hlavní funkce na získání instance knapsak z textu
 parseText :: String -> KnapSack 
@@ -94,7 +95,6 @@ itemParser2 xs = let it=Item {weight= -1 , cost= -1 }in
 -- kontroluje korektnost instance item
 itemCheckCorrectnes :: Item ->Bool
 itemCheckCorrectnes it = weight it >0 && cost it >0 
-
 
 -- parsing jednotlivých elementů každého itemu
 itemParser3 :: [String] -> Item  ->  (Item,[String] )

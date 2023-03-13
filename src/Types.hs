@@ -14,6 +14,7 @@ data KnapSack = KnapSack {
     items       :: [Item]
 } deriving (Eq,Show)
 
+-- položka v batohu
 data Item = Item{
     weight   :: Int,
     cost     :: Int  

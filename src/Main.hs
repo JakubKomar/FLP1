@@ -4,16 +4,17 @@
 * autor: Jakub Komárek (xkomar33)
 * description: parsuje argumenty a zpouští hlavní moduly
 -}
+import System.Environment(getArgs)
+import System.Exit(exitWith, ExitCode( ExitFailure,ExitSuccess ))
+import Minimize(minimaze)
+import System.Random(getStdGen)
 
-import System.Environment
-import System.Exit
+import ParseInput(parseText)
+import BrutForce(brutforce)
+import Data.Maybe(fromJust)
+import Types(SolutionVariation(itemVector)) -- uživatelsky definované typy
 
-import ParseInput 
-import BrutForce
-import Data.Maybe
-import Types
-import Minimize
-import System.Random
+-- hlavní funkce
 main :: IO ()
 main = getArgs >>= parse
 

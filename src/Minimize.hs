@@ -6,9 +6,10 @@
 -}
 module Minimize where
 
-import System.Random
+import System.Random(randomRs,randoms,StdGen)
+
 import Types
-import BrutForce
+import BrutForce(solutionsEvaluation,findSolution,solutionTransformation)
 
 -- inicializační funkce - vytvoří seznamy nekonečných náhodných čísel a započne generický algoritmus
 minimaze :: KnapSack -> StdGen -> Maybe SolutionVariation
