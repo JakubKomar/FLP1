@@ -20,7 +20,7 @@ minimaze ks gen =
 -- vytvoření první generace řešení - náhodné řešení
 startMinimaze :: KnapSack -> MiniStr -> Maybe SolutionVariation
 startMinimaze ks rs= 
-    let (sols, newRs)= genereteSolutions 32 ks rs in
+    let (sols, newRs)= genereteSolutions 32 ks rs in    --v každé generaci je 32 řešení
     begginGenAlg  newRs  ks sols
 
 -- hlavní rekurzní cyklus generyckého algoritmu
@@ -39,7 +39,7 @@ begginGenAlg rs ks sols=
         let (newRs4, newGeneration) = createChilds newRs3 randInt fightedSufleSol in -- tvorba potomků
         let modNewRs=newRs4{intCnt=(intCnt newRs4)+1}in  -- inkrementace čítače iterací
         -- (trace $ show x)
-        if (intCnt newRs4)<= 20000 then -- pokud bylo dosaženo maximálního počtu iterací je problém prohlášen za nevyřešitelný
+        if (intCnt newRs4)<= 30000 then -- pokud bylo dosaženo maximálního počtu iterací/generací (30000) je problém prohlášen za nevyřešitelný
             begginGenAlg modNewRs ks newGeneration  -- rekurzivní volání s nově vytvořeno generací řešení
         else
             Nothing 

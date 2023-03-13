@@ -2,8 +2,7 @@
 # autor: Bc. Jakub Komárek (xkomar33)
 # description: program řeší optimalizační verzi 0-1 problému batohu (knapsack problem)
 
-
-.PHONY: all build doxygen run pack clean
+.PHONY: all build run pack clean
 
 all: build
 

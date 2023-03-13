@@ -52,7 +52,7 @@ parametrParser x = let kp=KnapSack {maxWeight= -1 , minCost= -1 , items= []}in
 
 -- kontroluje korektnost instance KnapSack
 knapsackCheckCorrectnes :: KnapSack ->Bool
-knapsackCheckCorrectnes kp = maxWeight kp >0 && minCost kp >0 && items kp /=[]
+knapsackCheckCorrectnes kp = maxWeight kp >=0 && minCost kp >=0 && items kp /=[]
 
 -- parsing obsahu rootovského elementu
 subParametrParser :: [String] -> KnapSack -> KnapSack
