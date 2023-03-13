@@ -20,7 +20,7 @@ main = getArgs >>= parse
 
 -- tato funkce zkontroluje argumenty a získá data ze souboru/stdin. Pokračuje ve funkci parse2
 parse :: [[Char]] -> IO ()
-parse ["-h"] =putStrLn "Použití: flp22-fun [-i -b -o] \"soubor\""  >> exitWith ExitSuccess
+parse ["-h"] =printHelp
 parse [x,fp ]= -- vstup ze souboru
      if checkOption(x) then do
         file_content <- readFile fp
@@ -72,3 +72,18 @@ formatVector2 (x:xs) = (show x) ++ " " ++ (formatVector2 xs)
 -- chyba při kontrole argumentů
 argsErr :: IO ()
 argsErr=putStrLn "Args error, try -h" >>   exitWith  (ExitFailure 2)
+
+printHelp ::IO ()
+printHelp = putStrLn "\
+\Autor: Bc. Jakub Komárek (xkomar33)\n\ 
+\Project: FLP 2022/2023 – funkcionální projekt: Haskell [Knapsack problem]\n\ 
+\Description: program řeší optimalizační verzi 0-1 problému batohu (knapsack problem)\n\ 
+\\n\ 
+\Použití:\n\  
+\   ./flp22-fun [-i -b -o] [\"soubor.txt\" <\"soubor.txt\"] \n\ 
+\Argumenty: \n\ 
+\    -i :ze vstupu načte informace o instanci knapsack do vaší vnitřní reprezentace. Na stdout jí vypíše zpět \n\ 
+\    -b :ze vstupu načte informace o knapsack instanci. Na stdout vypíše řešení nalezené prohledáváním stavového prostoru hrubou silou.\n\
+\        V případě že řešení nebylo nalezeno, vypíše False. \n\ 
+\    -o :ze vstupu načte informace o knapsack instanci. Na stdout vypíše řešení nalezené pomocí optimalizační metody genetic algorithm.\n\ 
+\        V případě že řešení nebylo nalezeno, vypíše False." >> exitWith ExitSuccess
