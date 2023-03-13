@@ -1,0 +1,86 @@
+Knapsack {
+    maxWeight: 878
+    minCost: 1024
+    items: [
+        Item {
+            weight: 92
+            cost: 44
+        }
+        Item {
+            weight: 4
+            cost: 46
+        }
+        Item {
+            weight: 43
+            cost: 90
+        }
+        Item {
+            weight: 83
+            cost: 72
+        }
+        Item {
+            weight: 84
+            cost: 91
+        }
+        Item {
+            weight: 68
+            cost: 40
+        }
+        Item {
+            weight: 92
+            cost: 75
+        }
+        Item {
+            weight: 82
+            cost: 35
+        }
+        Item {
+            weight: 6
+            cost: 8
+        }
+        Item {
+            weight: 44
+            cost: 54
+        }
+        Item {
+            weight: 32
+            cost: 78
+        }
+        Item {
+            weight: 18
+            cost: 40
+        }
+        Item {
+            weight: 56
+            cost: 77
+        }
+        Item {
+            weight: 83
+            cost: 15
+        }
+        Item {
+            weight: 25
+            cost: 61
+        }
+        Item {
+            weight: 96
+            cost: 17
+        }
+        Item {
+            weight: 70
+            cost: 75
+        }
+        Item {
+            weight: 48
+            cost: 29
+        }
+        Item {
+            weight: 14
+            cost: 75
+        }
+        Item {
+            weight:58 
+            cost: 63
+        }
+    ]
+}

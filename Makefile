@@ -14,7 +14,7 @@ build:
 	mv flp22-fun ../
 
 pack: clean
-	zip -r flp-fun-xkomar33.zip src/ doc/ test/  Makefile 
+	zip -r flp-fun-xkomar33.zip src/ doc/ tests/  Makefile 
 
 run:
 	test -f flp22-fun && ./flp22-fun

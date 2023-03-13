@@ -1,4 +1,9 @@
+Některé testy jsou převzaty z:
+Dong, Jian & Wang, Zhiyu & Mo, Jinjun. (2021). 
+A Phase Angle-Modulated Bat Algorithm with Application to Antenna Topology Optimization. 
+Applied Sciences. 11. 2243. 10.3390/app11052243. 
+
 Testy jsou rozděleny do 3 katergorií
-1. korektnost vstupu - testují správný syntax a zkoušejí ruzné variace a kombinace vstupu
-2. optimal - testy pro generický algoritmus- vyznačují se velkým množstvím položek
+1. korektnost vstupu - testují správný syntax a zkoušejí ruzné variace a kombinace vstupu (moje testy)
+2. generic - testy pro generický algoritmus- vyznačují se velkým množstvím položek
 3. brutForce - testy pro hrubou sílu - vyznačují se menším počtem položek, v některých případech obsahují obskurdnější instance knapsaku

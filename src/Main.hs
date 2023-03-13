@@ -74,16 +74,15 @@ argsErr :: IO ()
 argsErr=putStrLn "Args error, try -h" >>   exitWith  (ExitFailure 2)
 
 printHelp ::IO ()
-printHelp = putStrLn "\
-\Autor: Bc. Jakub Komárek (xkomar33)\n\ 
-\Project: FLP 2022/2023 – funkcionální projekt: Haskell [Knapsack problem]\n\ 
-\Description: program řeší optimalizační verzi 0-1 problému batohu (knapsack problem)\n\ 
+printHelp = putStrLn "Autor: Bc. Jakub Komarek (xkomar33)\n\ 
+\Project: FLP 2022/2023 - funkcionalni projekt: Haskell [Knapsack problem]\n\ 
+\Description: program resi optimalizacni verzi 0-1 problemu batohu (knapsack problem)\n\ 
 \\n\ 
-\Použití:\n\  
+\Pouziti:\n\  
 \   ./flp22-fun [-i -b -o] [\"soubor.txt\" <\"soubor.txt\"] \n\ 
 \Argumenty: \n\ 
-\    -i :ze vstupu načte informace o instanci knapsack do vaší vnitřní reprezentace. Na stdout jí vypíše zpět \n\ 
-\    -b :ze vstupu načte informace o knapsack instanci. Na stdout vypíše řešení nalezené prohledáváním stavového prostoru hrubou silou.\n\
-\        V případě že řešení nebylo nalezeno, vypíše False. \n\ 
-\    -o :ze vstupu načte informace o knapsack instanci. Na stdout vypíše řešení nalezené pomocí optimalizační metody genetic algorithm.\n\ 
-\        V případě že řešení nebylo nalezeno, vypíše False." >> exitWith ExitSuccess
+\    -i :ze vstupu nacte informace o instanci knapsack a na stdout ji vypise zpet\n\ 
+\    -b :ze vstupu nacte informace o knapsack instanci. Na stdout vypise reseni nalezene prohledavanim stavoveho prostoru hrubou silou.\n\
+\        V pripade ze reseni nebylo nalezeno, vypise False. \n\ 
+\    -o :ze vstupu nacte informace o knapsack instanci. Na stdout vypise reseni nalezene pomoci optimalizacni metody genetic algorithm.\n\ 
+\        V pripade ze reseni nebylo nalezeno, vypise False." >> exitWith ExitSuccess
