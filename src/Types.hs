@@ -12,13 +12,31 @@ data KnapSack = KnapSack {
     maxWeight   :: Int,
     minCost     :: Int,
     items       :: [Item]
-} deriving (Eq,Show)
+} deriving (Eq)
+
+instance Show KnapSack where
+    show c= "KnapSack {\n" 
+            ++ "maxWeight: " ++ shows (maxWeight c) "\n"
+            ++ "minCost: " ++ shows (minCost c) "\n"
+            ++ "items: ["
+            ++ itemsToString (items c)
+            ++ "\n]\n}"
 
 -- položka v batohu
 data Item = Item{
     weight   :: Int,
     cost     :: Int  
-} deriving (Eq,Show)
+} deriving (Eq)
+
+itemsToString:: [Item]->String
+itemsToString []=""
+itemsToString (x:xs)=  (show x) ++ itemsToString xs
+instance Show Item where
+    show c=  "\n    Item {\n"
+            ++ "    weight: " ++ shows (weight c) "\n"
+            ++ "    cost: " ++ shows (cost c) "\n"
+            ++ "    }"
+
 
 -- pomocná struktura charkterizující řešení daného knapsack problému  
 data SolutionVariation = SolutionVariation{
